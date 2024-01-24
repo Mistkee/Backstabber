@@ -51,6 +51,23 @@ public class CharacterMovement : MonoBehaviour
 
         }
 
+        if (target)
+        {
+            if (Vector3.Distance(target.transform.position, transform.position) > 1.5)
+            {
+                backstab.GetComponent<Animator>().SetBool("Backstab", false);
+                backstab.GetComponent<Animator>().SetBool("NonBackstab", true);
+                stabEnabled = false;
+            }
+
+            if (Vector3.Dot(transform.forward, target.transform.forward) < 0)
+            {
+                backstab.GetComponent<Animator>().SetBool("Backstab", false);
+                backstab.GetComponent<Animator>().SetBool("NonBackstab", true);
+                stabEnabled = false;
+            }
+        }
+
         if(stabEnabled)
         {
             if (!target)

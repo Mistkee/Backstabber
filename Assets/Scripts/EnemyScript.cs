@@ -45,11 +45,7 @@ public class EnemyScript : MonoBehaviour
                     
                     CharacterMovement.instance.Stab(gameObject);
                 }
-                else
-                {
-                    
-                    CharacterMovement.instance.Stab(null);
-                }
+                
             }
         }
     }

@@ -9,7 +9,8 @@ public class CharacterMovement : MonoBehaviour
     Vector3 input, eForward, pForward, playerPosition;
     Rigidbody rb;
     GameObject target;
-   bool stabEnabled;
+    Animator animator;
+    bool stabEnabled;
    
     
     public static CharacterMovement instance;
@@ -18,6 +19,7 @@ public class CharacterMovement : MonoBehaviour
     {
         instance = this;
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
     void Start()
     {
@@ -82,8 +84,9 @@ public class CharacterMovement : MonoBehaviour
                 backstab.GetComponent<Animator>().SetBool("NonBackstab", false);
             }
 
-            if (Input.GetKey(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E))
             {
+                animator.SetTrigger("Attack");
                 Destroy(target);
             }
         }

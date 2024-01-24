@@ -5,10 +5,11 @@ using UnityEngine;
 public class CharacterMovement : MonoBehaviour
 {
     [SerializeField] private float speed, rotationSpeed;
+    [SerializeField] private GameObject spotted, backstab;
     Vector3 input, eForward, pForward, playerPosition;
     Rigidbody rb;
     GameObject target;
-    bool stabEnabled;
+   bool stabEnabled;
    
     
     public static CharacterMovement instance;
@@ -31,27 +32,45 @@ public class CharacterMovement : MonoBehaviour
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         for (int i = 0; i < enemies.Length; i++)
         {
-            if (enemies[i].GetComponent<EnemyScript>().SeeSomeone() == true)
+            if (enemies[i].GetComponent<EnemyScript>().SeeSomeone())
             {
+                spotted.GetComponent<Animator>().SetBool("Spotted", true);
+                spotted.GetComponent<Animator>().SetBool("NonSpotted", false);
+                backstab.SetActive(false);
                 stabEnabled = false;
                 return;
                 
             }
             else
             {
-               
+                spotted.GetComponent<Animator>().SetBool("Spotted", false);
+                spotted.GetComponent<Animator>().SetBool("NonSpotted", true);
+                backstab.SetActive(true);
                 stabEnabled = true;
             }
-           
+
         }
 
         if(stabEnabled)
         {
-            if(Input.GetKey(KeyCode.E))
+            if (!target)
+            {
+                backstab.GetComponent<Animator>().SetBool("Backstab", false);
+                backstab.GetComponent<Animator>().SetBool("NonBackstab", true);
+            }
+            else
+            {
+                Debug.Log(target.name);
+                backstab.GetComponent<Animator>().SetBool("Backstab", true);
+                backstab.GetComponent<Animator>().SetBool("NonBackstab", false);
+            }
+
+            if (Input.GetKey(KeyCode.E))
             {
                 Destroy(target);
             }
         }
+        
     }
 
     private void FixedUpdate()

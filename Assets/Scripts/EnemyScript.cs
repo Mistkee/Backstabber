@@ -13,7 +13,7 @@ public class EnemyScript : MonoBehaviour
     
     void Start()
     {
-        
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     
@@ -33,6 +33,8 @@ public class EnemyScript : MonoBehaviour
             seeSomeone = false;
         }
 
+        
+
         if (Vector3.Dot(eForward, playerPosition) < 0)
         {
             if (Vector3.Dot(eForward, pForward) > 0)
@@ -40,11 +42,16 @@ public class EnemyScript : MonoBehaviour
                 
                 if (playerDistance < maxDistance)
                 {
+                    
                     CharacterMovement.instance.Stab(gameObject);
+                }
+                else
+                {
+                    
+                    CharacterMovement.instance.Stab(null);
                 }
             }
         }
-        
     }
 
     public bool SeeSomeone()
